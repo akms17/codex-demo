@@ -1,7 +1,6 @@
 import { MetricsResponse, PricesResponse, RangeOption } from './types';
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8000';
 
 type ApiError = {
   error?: string;
@@ -24,10 +23,7 @@ async function fetchJson<T>(path: string): Promise<T> {
   return (await response.json()) as T;
 }
 
-export async function getPrices(
-  ticker: string,
-  range: RangeOption,
-): Promise<PricesResponse> {
+export async function getPrices(ticker: string, range: RangeOption): Promise<PricesResponse> {
   const query = new URLSearchParams({ ticker, range });
   return fetchJson<PricesResponse>(`/api/prices?${query.toString()}`);
 }
