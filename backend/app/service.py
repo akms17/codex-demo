@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Mapping
 from datetime import date
 
 import pandas as pd
@@ -19,14 +20,14 @@ PERIOD_MAP: dict[RangeOption, str] = {
 
 
 class ServiceError(Exception):
-    def __init__(self, message: str, details: str | None = None):
+    def __init__(self, message: str, details: str | None = None) -> None:
         super().__init__(message)
         self.message = message
         self.details = details
 
 
 class StockService:
-    def __init__(self, cache_ttl_seconds: int = 60):
+    def __init__(self, cache_ttl_seconds: int = 60) -> None:
         self.cache = TTLCache(ttl_seconds=cache_ttl_seconds)
 
     def _ticker(self, symbol: str) -> yf.Ticker:
@@ -101,7 +102,7 @@ class StockService:
         return response
 
     @staticmethod
-    def _safe_info_value(info: dict, key: str) -> str | None:
+    def _safe_info_value(info: Mapping[str, object], key: str) -> str | None:
         value = info.get(key)
         if value is None:
             return None

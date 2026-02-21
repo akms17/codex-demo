@@ -12,7 +12,7 @@ class CacheEntry:
 
 
 class TTLCache:
-    def __init__(self, ttl_seconds: int = 60):
+    def __init__(self, ttl_seconds: int = 60) -> None:
         self.ttl_seconds = ttl_seconds
         self._store: dict[str, CacheEntry] = {}
 

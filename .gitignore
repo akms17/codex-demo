@@ -6,6 +6,14 @@ frontend/.next
 backend/.venv
 backend/__pycache__
 backend/.pytest_cache
+backend/.mypy_cache
+backend/.ruff_cache
+
+# Tooling
+.pre-commit-cache
 
 # OS
 .DS_Store
+
+__pycache__/
+*.pyc
