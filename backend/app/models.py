@@ -4,7 +4,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field, field_validator
 
-RangeOption = Literal['1m', '3m', '6m', '1y', '5y', 'max']
+RangeOption = Literal["1m", "3m", "6m", "1y", "5y", "max"]
 
 
 class PricePoint(BaseModel):
@@ -38,13 +38,13 @@ class APIError(BaseModel):
     details: str | None = None
 
 
-TICKER_REGEX = r'^[A-Za-z0-9.-]{1,10}$'
+TICKER_REGEX = r"^[A-Za-z0-9.-]{1,10}$"
 
 
 class QueryParams(BaseModel):
     ticker: str = Field(pattern=TICKER_REGEX)
 
-    @field_validator('ticker')
+    @field_validator("ticker")
     @classmethod
     def normalize_ticker(cls, value: str) -> str:
         return value.upper()
