@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
+from typing import cast
 from datetime import date
 
 import pandas as pd
@@ -37,7 +38,7 @@ class StockService:
         cache_key = f"prices:{ticker}:{range_option}"
         cached = self.cache.get(cache_key)
         if cached is not None:
-            return cached
+            return cast(PricesResponse, cached)
 
         period = PERIOD_MAP[range_option]
         try:
@@ -74,7 +75,7 @@ class StockService:
         cache_key = f"metrics:{ticker}"
         cached = self.cache.get(cache_key)
         if cached is not None:
-            return cached
+            return cast(MetricsResponse, cached)
 
         try:
             ticker_obj = self._ticker(ticker)
@@ -110,9 +111,9 @@ class StockService:
 
     @staticmethod
     def _safe_float(value: object) -> float | None:
-        if value is None:
+        if not isinstance(value, int | float | str):
             return None
         try:
             return float(value)
-        except (TypeError, ValueError):
+        except ValueError:
             return None
