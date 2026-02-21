@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import cast
 from datetime import date
+from typing import cast
 
 import pandas as pd
 import yfinance as yf
