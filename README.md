@@ -16,12 +16,13 @@ A full-stack monorepo with:
 │   │   ├── main.py
 │   │   ├── models.py
 │   │   └── service.py
+│   ├── pyproject.toml
 │   ├── requirements.txt
 │   └── tests
 │       └── test_api.py
 ├── docker-compose.yml
 ├── frontend
-│   ├── .env.example
+│   ├── .eslintrc.json
 │   ├── app
 │   │   ├── globals.css
 │   │   ├── layout.tsx
@@ -38,7 +39,12 @@ A full-stack monorepo with:
 │   ├── postcss.config.mjs
 │   ├── tailwind.config.ts
 │   └── tsconfig.json
-├── .gitignore
+├── .editorconfig
+├── .pre-commit-config.yaml
+├── .prettierignore
+├── .prettierrc.json
+├── CONTRIBUTING.md
+├── Makefile
 └── README.md
 ```
 
@@ -93,6 +99,58 @@ This starts:
 - frontend: `http://localhost:3000`
 - backend: `http://localhost:8000`
 
+## Development Standards
+
+### Tooling
+
+- **Frontend linting**: ESLint with `next/core-web-vitals`, `next/typescript`, and `@typescript-eslint/recommended`.
+- **Frontend formatting**: Prettier.
+- **Backend linting/import sorting**: Ruff.
+- **Backend formatting**: Black (`line-length = 100`).
+- **Backend type checking**: MyPy (strict-ish settings).
+
+### Repo-wide commands
+
+Run from repository root:
+
+```bash
+make format
+make lint
+make typecheck
+make test
+make check
+```
+
+### Frontend commands
+
+```bash
+cd frontend
+npm run lint
+npm run format
+npm run format:check
+npm run build
+```
+
+### Backend commands
+
+```bash
+cd backend
+ruff check app tests
+black --check app tests
+mypy app tests
+pytest
+```
+
+### Pre-commit (optional but recommended)
+
+```bash
+pip install pre-commit
+pre-commit install
+pre-commit run --all-files
+```
+
+Configured hooks run Ruff, Black, Prettier, and ESLint.
+
 ## Notes
 
 - Supported ranges: `1m`, `3m`, `6m`, `1y`, `5y`, `max`
@@ -100,10 +158,3 @@ This starts:
 - Backend cache: in-memory TTL (60 seconds)
 - Dates are returned as timezone-safe `YYYY-MM-DD`
 - Missing yfinance fields are returned as `null`
-
-## Run tests
-
-```bash
-cd backend
-pytest
-```

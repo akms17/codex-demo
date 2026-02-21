@@ -98,10 +98,16 @@ export default function Home() {
         </button>
       </form>
 
-      {error && <div className="rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
+      {error && (
+        <div className="rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
       {loading && <div className="rounded bg-slate-200 p-3 text-sm text-slate-700">Loading...</div>}
 
-      {!loading && !error && prices && <PriceChart points={prices.points} currency={prices.currency} />}
+      {!loading && !error && prices && (
+        <PriceChart points={prices.points} currency={prices.currency} />
+      )}
       {!loading && !error && metrics && <KeyMetrics metrics={metrics} />}
     </main>
   );

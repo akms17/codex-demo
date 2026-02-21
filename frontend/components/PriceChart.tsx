@@ -39,21 +39,12 @@ export default function PriceChart({ points, currency }: Props) {
           <LineChart data={points} margin={{ top: 10, right: 20, bottom: 10, left: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#cbd5e1" />
             <XAxis dataKey="date" minTickGap={24} />
-            <YAxis
-              tickFormatter={(value: number) => moneyFormatter(value, currency)}
-              width={90}
-            />
+            <YAxis tickFormatter={(value: number) => moneyFormatter(value, currency)} width={90} />
             <Tooltip
               formatter={(value: number) => moneyFormatter(value, currency)}
               labelFormatter={(label: string) => `Date: ${label}`}
             />
-            <Line
-              type="monotone"
-              dataKey="close"
-              stroke="#2563eb"
-              strokeWidth={2}
-              dot={false}
-            />
+            <Line type="monotone" dataKey="close" stroke="#2563eb" strokeWidth={2} dot={false} />
           </LineChart>
         </ResponsiveContainer>
       )}
