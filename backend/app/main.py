@@ -10,6 +10,8 @@ from .service import ServiceError, StockService
 
 app = FastAPI(title='Stock Dashboard API')
 service = StockService(cache_ttl_seconds=60)
+TICKER_QUERY = Query(...)
+RANGE_QUERY = Query(...)
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,7 +28,7 @@ def health() -> dict[str, str]:
 
 
 @app.get('/api/prices', response_model=PricesResponse, responses={400: {'model': APIError}, 502: {'model': APIError}})
-def prices(ticker: str = Query(...), range: RangeOption = Query(...)) -> PricesResponse | JSONResponse:
+def prices(ticker: str = TICKER_QUERY, range: RangeOption = RANGE_QUERY) -> PricesResponse | JSONResponse:
     try:
         params = QueryParams(ticker=ticker)
     except ValidationError as exc:
@@ -46,7 +48,7 @@ def prices(ticker: str = Query(...), range: RangeOption = Query(...)) -> PricesR
 
 
 @app.get('/api/metrics', response_model=MetricsResponse, responses={400: {'model': APIError}, 502: {'model': APIError}})
-def metrics(ticker: str = Query(...)) -> MetricsResponse | JSONResponse:
+def metrics(ticker: str = TICKER_QUERY) -> MetricsResponse | JSONResponse:
     try:
         params = QueryParams(ticker=ticker)
     except ValidationError as exc:
