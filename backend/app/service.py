@@ -89,6 +89,8 @@ class StockService:
         response = MetricsResponse(
             ticker=ticker,
             name=self._safe_info_value(info, "longName"),
+            industryType=self._safe_info_value(info, "sector")
+            or self._safe_info_value(info, "industry"),
             exchange=self._safe_info_value(info, "exchange"),
             currency=self._safe_info_value(info, "currency"),
             price=self._safe_float(info.get("currentPrice")),

@@ -22,6 +22,7 @@ class PricesResponse(BaseModel):
 class MetricsResponse(BaseModel):
     ticker: str
     name: str | None = None
+    industryType: str | None = None
     exchange: str | None = None
     currency: str | None = None
     price: float | None = None
