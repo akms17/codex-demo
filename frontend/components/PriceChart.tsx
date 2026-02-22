@@ -44,7 +44,7 @@ export default function PriceChart({ points, currency }: Props) {
               formatter={(value: number) => moneyFormatter(value, currency)}
               labelFormatter={(label: string) => `Date: ${label}`}
             />
-            <Line type="monotone" dataKey="close" stroke="#2563eb" strokeWidth={2} dot={false} />
+            <Line type="monotone" dataKey="close" stroke="#16a34a" strokeWidth={2} dot={false} />
           </LineChart>
         </ResponsiveContainer>
       )}
