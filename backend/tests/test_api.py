@@ -14,6 +14,7 @@ class FakeTicker:
             "currency": "USD",
             "longName": "Apple Inc.",
             "exchange": "NMS",
+            "sector": "Consumer Staples",
             "currentPrice": 189.5,
             "marketCap": 1_000_000,
             "trailingPE": 22.1,
@@ -63,5 +64,6 @@ def test_metrics_response_shape(monkeypatch: MonkeyPatch) -> None:
     payload = response.json()
     assert payload["ticker"] == "AAPL"
     assert payload["name"] == "Apple Inc."
+    assert payload["industryType"] == "Consumer Staples"
     assert payload["marketCap"] == 1_000_000
     assert payload["dividendYield"] == 0.004

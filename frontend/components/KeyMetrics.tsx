@@ -37,6 +37,7 @@ const formatValue = (
 export default function KeyMetrics({ metrics }: Props) {
   const cards = [
     { label: 'Company', value: metrics.name ?? 'N/A' },
+    { label: 'Industry Type', value: metrics.industryType ?? 'N/A' },
     { label: 'Exchange', value: metrics.exchange ?? 'N/A' },
     {
       label: 'Current Price',

@@ -13,6 +13,7 @@ export type PricesResponse = {
 export type MetricsResponse = {
   ticker: string;
   name: string | null;
+  industryType: string | null;
   exchange: string | null;
   currency: string | null;
   price: number | null;
