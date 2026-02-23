@@ -80,10 +80,13 @@ class StockService:
         try:
             ticker_obj = self._ticker(ticker)
             info = ticker_obj.info
+            # yfinance>=1.0 continues to expose .info, but this can be sparse/rate-limited.
+            # Fall back to fast_info fields when available.
+            fast_info = cast(Mapping[str, object], getattr(ticker_obj, "fast_info", {}) or {})
         except Exception as exc:  # noqa: BLE001
             raise ServiceError("Failed to fetch stock metrics", str(exc)) from exc
 
-        if not info:
+        if not info and not fast_info:
             raise ServiceError("Ticker not found or metrics unavailable", ticker)
 
         response = MetricsResponse(
@@ -92,14 +95,23 @@ class StockService:
             industryType=self._safe_info_value(info, "sector")
             or self._safe_info_value(info, "industry"),
             exchange=self._safe_info_value(info, "exchange"),
-            currency=self._safe_info_value(info, "currency"),
-            price=self._safe_float(info.get("currentPrice")),
-            marketCap=self._safe_float(info.get("marketCap")),
+            currency=self._safe_info_value(info, "currency")
+            or self._safe_info_value(fast_info, "currency"),
+            price=self._safe_float(info.get("currentPrice"))
+            or self._safe_float(fast_info.get("lastPrice"))
+            or self._safe_float(fast_info.get("last_price")),
+            marketCap=self._safe_float(info.get("marketCap"))
+            or self._safe_float(fast_info.get("marketCap"))
+            or self._safe_float(fast_info.get("market_cap")),
             trailingPE=self._safe_float(info.get("trailingPE")),
             forwardPE=self._safe_float(info.get("forwardPE")),
             dividendYield=self._safe_float(info.get("dividendYield")),
-            fiftyTwoWeekLow=self._safe_float(info.get("fiftyTwoWeekLow")),
-            fiftyTwoWeekHigh=self._safe_float(info.get("fiftyTwoWeekHigh")),
+            fiftyTwoWeekLow=self._safe_float(info.get("fiftyTwoWeekLow"))
+            or self._safe_float(fast_info.get("yearLow"))
+            or self._safe_float(fast_info.get("year_low")),
+            fiftyTwoWeekHigh=self._safe_float(info.get("fiftyTwoWeekHigh"))
+            or self._safe_float(fast_info.get("yearHigh"))
+            or self._safe_float(fast_info.get("year_high")),
         )
         self.cache.set(cache_key, response)
         return response

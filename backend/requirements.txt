@@ -1,6 +1,6 @@
 fastapi==0.115.11
 uvicorn[standard]==0.34.0
-yfinance==0.2.54
+yfinance==1.2.0
 pandas==2.2.3
 pytest==8.3.5
 httpx==0.28.1
